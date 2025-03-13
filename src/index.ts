@@ -61,19 +61,18 @@ export function generateFromEmail(email: string, randomDigits?: number): string 
 }
 
 /**
- * Apply style formatting to a string
+ * Apply style formatting to an array of words
  */
-function applyStyle(text: string, style?: Style): string {
-  if (!style) return text.toLowerCase();
-
-  const words = text.split(/[^a-zA-Z0-9]+/);
+function applyStyle(words: string[], style?: Style): string {
+  if (!style) return words.join("").toLowerCase();
 
   switch (style) {
     case Style.LowerCase:
-      return text.toLowerCase();
+      return words.join("").toLowerCase();
     case Style.UpperCase:
-      return text.toUpperCase();
+      return words.join("").toUpperCase();
     case Style.Capital: {
+      const text = words.join("");
       const [firstLetter, ...rest] = text.split("");
       return firstLetter.toUpperCase() + rest.join("").toLowerCase();
     }
@@ -88,7 +87,7 @@ function applyStyle(text: string, style?: Style): string {
     case Style.PascalCase:
       return words.map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join("");
     default:
-      return text.toLowerCase();
+      return words.join("").toLowerCase();
   }
 }
 
@@ -101,16 +100,23 @@ export function generateUsername(separator?: string, randomDigits?: number, leng
         .toLocaleLowerCase()
     : adjectives[Math.floor(Math.random() * adjectives.length)];
 
+  // Create word array
+  const words = [adjective, noun];
+  
   let username;
-  // Create unique username
-  if (separator) {
-    username = adjective + separator + noun + randomNumber(randomDigits);
+  if (style) {
+    // Apply style formatting to words array
+    username = applyStyle(words, style);
+  } else if (separator) {
+    // Join with separator if no style is applied
+    username = words.join(separator);
   } else {
-    username = adjective + noun + randomNumber(randomDigits);
+    // Simple concatenation
+    username = words.join("");
   }
-
-  // Apply style formatting
-  username = applyStyle(username, style);
+  
+  // Add random number
+  username += randomNumber(randomDigits);
 
   if (length) {
     return username.substring(0, length);
@@ -127,21 +133,27 @@ export function uniqueUsernameGenerator(config: Config): string {
   } else {
     const fromDictRander = (i: number) => config.dictionaries[i][getRandomInt(0, config.dictionaries[i].length - 1)];
     const dictionariesLength = config.dictionaries.length;
-    const separator = config.separator || "";
-    let name = "";
+    
+    // Collect words from dictionaries
+    const words = [];
     for (let i = 0; i < dictionariesLength; i++) {
-      const next = fromDictRander(i);
-      if (!name) {
-        name = next;
-      } else {
-        name += separator + next;
-      }
+      words.push(fromDictRander(i));
     }
 
-    let username = name + randomNumber(config.randomDigits);
-
-    // Apply style formatting
-    username = applyStyle(username, config.style);
+    let username;
+    if (config.style) {
+      // Apply style formatting to words array
+      username = applyStyle(words, config.style);
+    } else if (config.separator) {
+      // Join with separator if no style is applied
+      username = words.join(config.separator);
+    } else {
+      // Simple concatenation
+      username = words.join("");
+    }
+    
+    // Add random number
+    username += randomNumber(config.randomDigits);
 
     if (config.length) {
       return username.substring(0, config.length);

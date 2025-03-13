@@ -156,13 +156,15 @@ describe("generate-unique-username unit tests", (): void => {
   });
   it("generating unique username with camelCase style", (): void => {
     const actual: string = generateUsername("-", 0, undefined, undefined, Style.CamelCase);
-    // Extract the parts before any potential numbers
-    const parts = actual.replace(/-/g, " ").split(" ");
-    // First word should be lowercase, second word should be capitalized
-    expect(parts[0]).to.equal(parts[0].toLowerCase());
-    if (parts.length > 1) {
-      expect(parts[1][0]).to.equal(parts[1][0].toUpperCase());
+    expect(actual.charAt(0)).to.equal(actual.charAt(0).toLowerCase(), "First character should be lowercase in camelCase");
+    let hasUpperCaseAfterFirst = false;
+    for (let i = 1; i < actual.length; i++) {
+      if (actual.charAt(i) === actual.charAt(i).toUpperCase() && isNaN(parseInt(actual.charAt(i), 10))) {
+        hasUpperCaseAfterFirst = true;
+        break;
+      }
     }
+    expect(hasUpperCaseAfterFirst).to.be.true;
   });
   it("generating unique username with snakeCase style", (): void => {
     const actual: string = generateUsername("-", 0, undefined, undefined, Style.SnakeCase);
@@ -176,7 +178,6 @@ describe("generate-unique-username unit tests", (): void => {
   });
   it("generating unique username with pascalCase style", (): void => {
     const actual: string = generateUsername("-", 0, undefined, undefined, Style.PascalCase);
-    // Words should start with capital letters
     const parts = actual.replace(/-/g, " ").split(" ");
     for (const part of parts) {
       if (part.length > 0) {
