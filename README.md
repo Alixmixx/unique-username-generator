@@ -86,6 +86,14 @@ console.log(username); // blossomlogistical73
 // With all parameters
 const username = generateUsername("-", 2, 20, 'unique username');
 console.log(username); // unique-username-73
+
+// With style formatting
+const username = generateUsername("-", 0, undefined, undefined, Style.CamelCase);
+console.log(username); // blossomLogistical
+
+// With style formatting
+const username = generateUsername("-", 0, undefined, undefined, Style.SnakeCase);
+console.log(username); // blossom_logistical
 ```
 
 ### Default dictionaries
@@ -109,7 +117,7 @@ const username: string = uniqueUsernameGenerator(config); // blossomlogistical
 You might want to provide your custom dictionaries to use for generating your unique username, in order to meet your project requirements. You can easily do that using the dictionaries option.
 
 ```javascript
-import { uniqueUsernameGenerator } from 'unique-username-generator';
+import { uniqueUsernameGenerator, Style } from 'unique-username-generator';
 
 const marvelCharacters = [
   'Iron Man',
@@ -122,7 +130,7 @@ const marvelCharacters = [
 const config: Config = {
   dictionaries: [marvelCharacters],
   separator: '',
-  style: 'capital',
+  style: Style.Capital,
   randomDigits: 3
 }
 
@@ -147,7 +155,7 @@ The `options` argument mostly corresponds to the properties defined for uniqueUs
 | separator    | `string`                            | A string separator to be used for separate the words generated. The default separator is set to be empty string.                                                                                                                                                                    | ""            | `-`                                                                                                                                                                                                                     |
 | randomDigits | `number`                            | A number of random digits to add at the end of a username.                                                                                                                                                                                                                          | 0             | `3`                                                                                                                                                                                                                     |
 | length       | `number`                            | A maximum length of a username                                                                                                                                                                                                                                                      | 15            | `12`                                                                                                                                                                                                                    |
-| style        | `lowerCase \| upperCase \| capital` | The default value is set to `lowerCase` and it will return a lower case username.<br>By setting the value to `upperCase`, the words, will be returned with all the letters in upper case format.<br>The `capital` option will capitalize each word of the unique username generated | lowerCase     | `lowerCase`                                                                                                                                                                                                             |
+| style        | `Style` enum                        | Controls the formatting of the generated username. Available options are:<br>- `Style.LowerCase`: all lowercase (default)<br>- `Style.UpperCase`: ALL UPPERCASE<br>- `Style.Capital`: First Letter Capitalized<br>- `Style.CamelCase`: camelCaseFormatting<br>- `Style.SnakeCase`: snake_case_formatting<br>- `Style.KebabCase`: kebab-case-formatting<br>- `Style.PascalCase`: PascalCaseFormatting | Style.LowerCase | `Style.CamelCase`                                                                                                                                                                                                         |
 
 ## License
 

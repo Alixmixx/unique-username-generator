@@ -1,4 +1,4 @@
-import { adjectives, nouns, generateFromEmail, uniqueUsernameGenerator, generateUsername } from "../src/index";
+import { adjectives, nouns, generateFromEmail, uniqueUsernameGenerator, generateUsername, Style } from "../src/index";
 import { expect } from "chai";
 
 describe("generate-unique-username-from-email unit tests", (): void => {
@@ -64,37 +64,65 @@ describe("generate-unique-username-uniqueUsernameGenerator unit tests", (): void
   it("uniqueUsernameGenerator uses all dicts w separator", (): void => {
     const actual: string = uniqueUsernameGenerator({
       dictionaries: [["q"], ["a"]],
-      separator: "-"
+      separator: "-",
     });
     expect(actual).is.equal("q-a");
   });
 
   it("uniqueUsernameGenerator uses all dicts wo separator", (): void => {
     const actual: string = uniqueUsernameGenerator({
-      dictionaries: [["q"], ["a"]]
+      dictionaries: [["q"], ["a"]],
     });
     expect(actual).is.equal("qa");
   });
   it("uniqueUsernameGenerator style UPPERCASE", (): void => {
     const actual: string = uniqueUsernameGenerator({
       dictionaries: [["q"], ["a"]],
-      style: "upperCase"
+      style: Style.UpperCase,
     });
     expect(actual).is.equal("QA");
   });
   it("uniqueUsernameGenerator style lowercase", (): void => {
     const actual: string = uniqueUsernameGenerator({
       dictionaries: [["Q"], ["A"]],
-      style: "lowerCase"
+      style: Style.LowerCase,
     });
     expect(actual).is.equal("qa");
   });
   it("uniqueUsernameGenerator style capital", (): void => {
     const actual: string = uniqueUsernameGenerator({
       dictionaries: [["q"], ["A"]],
-      style: "capital"
+      style: Style.Capital,
     });
     expect(actual).is.equal("Qa");
+  });
+  it("uniqueUsernameGenerator style camelCase", (): void => {
+    const actual: string = uniqueUsernameGenerator({
+      dictionaries: [["cool"], ["dog"]],
+      style: Style.CamelCase,
+    });
+    expect(actual).is.equal("coolDog");
+  });
+  it("uniqueUsernameGenerator style snakeCase", (): void => {
+    const actual: string = uniqueUsernameGenerator({
+      dictionaries: [["cool"], ["dog"]],
+      style: Style.SnakeCase,
+    });
+    expect(actual).is.equal("cool_dog");
+  });
+  it("uniqueUsernameGenerator style kebabCase", (): void => {
+    const actual: string = uniqueUsernameGenerator({
+      dictionaries: [["cool"], ["dog"]],
+      style: Style.KebabCase,
+    });
+    expect(actual).is.equal("cool-dog");
+  });
+  it("uniqueUsernameGenerator style pascalCase", (): void => {
+    const actual: string = uniqueUsernameGenerator({
+      dictionaries: [["cool"], ["dog"]],
+      style: Style.PascalCase,
+    });
+    expect(actual).is.equal("CoolDog");
   });
   it("uniqueUsernameGenerator works w config w default dictionaries only", (): void => {
     const actual: string = uniqueUsernameGenerator({ dictionaries: [adjectives, nouns] });
@@ -120,10 +148,40 @@ describe("generate-unique-username unit tests", (): void => {
   });
   it("generating unique username with max length", (): void => {
     const actual: string = generateUsername("-", 2, 5);
-    expect(actual).to.lengthOf(5)
+    expect(actual).to.lengthOf(5);
   });
   it("generating unique username with max length and prefix", (): void => {
     const actual: string = generateUsername("-", undefined, undefined, "unique username");
-    expect(actual).to.contain(`unique-username`)
+    expect(actual).to.contain(`unique-username`);
   });
-})
+  it("generating unique username with camelCase style", (): void => {
+    const actual: string = generateUsername("-", 0, undefined, undefined, Style.CamelCase);
+    // Extract the parts before any potential numbers
+    const parts = actual.replace(/-/g, " ").split(" ");
+    // First word should be lowercase, second word should be capitalized
+    expect(parts[0]).to.equal(parts[0].toLowerCase());
+    if (parts.length > 1) {
+      expect(parts[1][0]).to.equal(parts[1][0].toUpperCase());
+    }
+  });
+  it("generating unique username with snakeCase style", (): void => {
+    const actual: string = generateUsername("-", 0, undefined, undefined, Style.SnakeCase);
+    expect(actual).to.include("_");
+    expect(actual).to.equal(actual.toLowerCase());
+  });
+  it("generating unique username with kebabCase style", (): void => {
+    const actual: string = generateUsername("-", 0, undefined, undefined, Style.KebabCase);
+    expect(actual).to.include("-");
+    expect(actual).to.equal(actual.toLowerCase());
+  });
+  it("generating unique username with pascalCase style", (): void => {
+    const actual: string = generateUsername("-", 0, undefined, undefined, Style.PascalCase);
+    // Words should start with capital letters
+    const parts = actual.replace(/-/g, " ").split(" ");
+    for (const part of parts) {
+      if (part.length > 0) {
+        expect(part[0]).to.equal(part[0].toUpperCase());
+      }
+    }
+  });
+});

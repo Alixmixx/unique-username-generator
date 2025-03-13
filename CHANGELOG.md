@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.1.5] - 2025-03-13
+
+### Added
+
+- Added new style formatting options by @Alixmixx:
+  - CamelCase: first word lowercase, subsequent words capitalized
+  - SnakeCase: words separated by underscores
+  - KebabCase: words separated by hyphens
+  - PascalCase: all words capitalized
+- Added comprehensive test coverage for all new style options
+
 ## [1.1.4] - 2023-07-31
 
 ### Changed
