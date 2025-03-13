@@ -1,6 +1,6 @@
 {
-  "name": "unique-username-generator",
-  "version": "1.1.3",
+  "name": "@alixmixx/unique-username-generator",
+  "version": "1.1.5",
   "description": "A package to generate a unique username from email or randomly selected nouns and adjectives. User can add a separator between the username, define the maximum length of a username and adds up to six random digits.",
   "main": "./dist/index.js",
   "scripts": {
@@ -19,7 +19,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/subhamg/unique-username-generator.git"
+    "url": "https://github.com/Alixmixx/unique-username-generator.git"
   },
   "keywords": [
     "generate",
@@ -31,7 +31,7 @@
     "generate unique username",
     "generate-unique-username",
     "generate-unique-name",
-    "unique-username-generator",
+    "@alixmixx/unique-username-generator",
     "unique-name-generator",
     "unique",
     "random",
@@ -39,12 +39,12 @@
     "generator",
     "node"
   ],
-  "author": "Subham Goyal",
+  "author": "Alixmixx",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/subhamg/unique-username-generator/issues"
+    "url": "https://github.com/Alixmixx/unique-username-generator/issues"
   },
-  "homepage": "https://github.com/subhamg/unique-username-generator#readme",
+  "homepage": "https://github.com/Alixmixx/unique-username-generator#readme",
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "^1.0.2",
     "@types/chai": "^4.3.1",
