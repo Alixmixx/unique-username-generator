@@ -25,4 +25,4 @@
 - Fixed a small spelling mistake Retrive -> Retrieve
 - Put adjective in first position before noun in generateUsername
 
-**Full Changelog**: https://github.com/subhamg/unique-username-generator/compare/v1.1.1...v1.1.3
+**Full Changelog**: https://github.com/Alixmixx/unique-username-generator/compare/v1.1.1...v1.1.3
