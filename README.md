@@ -18,7 +18,11 @@ A package to generate a unique username from email or randomly selected nouns an
 ## Installation
 
 ```javascript
-npm install unique-username-generator --save
+npm install @alixmixx/unique-username-generator
+```
+
+```javascript
+yarn add @alixmixx/unique-username-generator
 ```
 
 - Importing
